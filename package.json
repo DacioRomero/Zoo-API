@@ -4,7 +4,9 @@
   "description": "Zoo API project for [@MakeSchool](https://github.com/MakeSchool)'s BEW 1.2 Class",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start:dev": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,10 @@
   },
   "homepage": "https://github.com/DacioRomero/Zoo-API#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
   }
 }
