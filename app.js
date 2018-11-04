@@ -1,3 +1,5 @@
+// app.js
+// REQUIREMENTS
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -5,10 +7,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
-let id = 2;
+// DATA
+const animals = [
+    { id: 0, name: 'George', species: 'Lion' },
+    { id: 1, name: 'Krista', species: 'Penguin' }
+]
 
-// TODO: Use more advanced data type
-const animals = {0: 'cat', 1: 'dog'}
+let newId = 2;
+
+function findAnimalById(id) {
+    return animals.find(animal => { return animal.id == id })
+}
 
 // INDEX Animals
 app.get('/animals', (req, res) => {
@@ -18,34 +27,27 @@ app.get('/animals', (req, res) => {
 // SHOW Animal
 app.get('/animals/:id', (req, res) => {
     const animalId = req.params.id;
-
-    res.status(200).send({ [animalId]: animals[req.params.id] });
+    res.status(200).send(findAnimalById(animalId));
 });
 
 // CREATE Animal
 app.post('/animals', (req, res) => {
-    const animalId = id++;
-    animals[animalId] = req.body.name;
-
-    res.status(200).send({ [animalId]: animals[animalId] });
+    const animal = Object.assign({id: newId++}, req.body);
+    animals.push(animal)
+    res.status(200).send(animal);
 });
 
 // UPDATE Animal
 app.put('/animals/:id', (req, res) => {
-    const animalId = req.params.id;
-    animals[animalId] = req.body.name;
-
-    res.status(200).send({ [animalId]: animals[animalId] });
+    const animal = Object.assign(findAnimalById(req.params.id), req.body)
+    res.status(200).send(animal);
 });
 
 // DESTROY Animal D:
 app.delete('/animals/:id', (req, res) => {
-    const animalId = req.params.id;
-    const animal = animals[animalId];
-
-    delete animals[animalId];
-
-    res.status(200).send({ [animalId]: animal });
+    const animal = findAnimalById(req.params.id);
+    animals.splice(animals.indexOf(animal), 1);
+    res.status(200).send(animal);
 });
 
 // LISTENER
